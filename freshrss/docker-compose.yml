@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  freshrss:
+    image: freshrss/freshrss
+    labels:
+      - 'traefik.backend=freshrss'
+      - 'traefik.frontend.rule=Host:rss.mahfoudi.me'
+      - 'traefik.port=80'
+      - 'traefik.frontend.entryPoints=http,https'
+      - 'traefik.frontend.redirect.entryPoint=https'
+    volumes:
+      - 'freshrss:/var/www/FreshRSS/data'
+    environment:
+      - 'CRON_MIN=5,35'
+    networks:
+      - 'proxy'
+    container_name: freshrss
+    restart: always
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  freshrss:
