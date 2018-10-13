@@ -1,0 +1,38 @@
+# Traefik Global Configuration
+debug = false
+checkNewVersion = true
+logLevel = "ERROR"
+
+# Define the EntryPoint for HTTP and HTTPS
+defaultEntryPoints = ["http", "https"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+[web]
+address = ":8080"
+
+# Define Docker Backend Configuration
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "traefik.mahfoudi.me"
+watch = true
+exposedbydefault = false
+
+# Letsencrypt Registration
+# Define the Letsencrypt ACME HTTP challenge
+[acme]
+email = "contact@mahfoudi.me"
+storage = "acme.json"
+entryPoint = "https"
+  [acme.httpChallenge]
+  entryPoint = "http"
+
+[[acme.domains]]
+  main = "rss.mahfoudi.me"
+[[acme.domains]]
+  main = "dav.mahfoudi.me"
