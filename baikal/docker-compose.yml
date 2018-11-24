@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  baikal:
+    image: ckulka/baikal:nginx
+    labels:
+      - 'traefik.backend=baikal'
+      - 'traefik.frontend.rule=Host:dav.mahfoudi.me'
+      - 'traefik.port=80'
+      - 'traefik.frontend.entryPoints=http,https'
+      - 'traefik.frontend.redirect.entryPoint=https'
+    volumes:
+      - 'baikal:/var/www/baikal/Specific'
+    networks:
+      - 'proxy'
+    container_name: baikal
+    restart: always
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  baikal:
