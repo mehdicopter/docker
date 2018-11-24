@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  smashing:
+    image: rgcamus/alpine_smashing
+    labels:
+      - 'traefik.backend=smashing'
+      - 'traefik.frontend.rule=Host:dashboard.mahfoudi.me'
+      - 'traefik.port=3030'
+      - 'traefik.frontend.entryPoints=http'
+    volumes:
+      - './smashing-dashboard/dashboards:/dashboards'
+      - './smashing-dashboard/assets:/assets'
+      - './smashing-dashboard/jobs:/jobs'
+      - './smashing-dashboard/widgets:/widgets'
+      - './smashing-dashboard/config:/config'
+    networks:
+      - 'proxy'
+    container_name: smashing
+    restart: always
+
+networks:
+  proxy:
+    external: true
